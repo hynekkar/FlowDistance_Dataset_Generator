@@ -1,8 +1,13 @@
-from commandsExecutor import *
-from tcpdumpHandler import *
+
 import urllib.request
 import time
 import argparse
+import sys
+
+sys.path.insert(0, './libs')
+from commandsExecutor import *
+from tcpdumpHandler import *
+
 
 corruptionValues = [0, 5, 10, 50, 80]
 duplicationValues = [0, 5, 10, 50, 80]
