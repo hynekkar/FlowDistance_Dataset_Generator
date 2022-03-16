@@ -23,4 +23,8 @@
   yum -y install tcpdump
   yum -y install wireshark
   usermod -a -G wireshark vagrant
+  yum -y install ethtool
+  ethtool -K eth0 tx off sg off tso off
+  ethtool --offload eth0 rx off tx off
+  ethtool -K eth0 gro off
 
