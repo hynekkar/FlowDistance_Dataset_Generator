@@ -66,12 +66,12 @@ class limitTransferRateCommand(command):
         self.command = "sudo tc qdisc add dev {0} root netem rate {1}Mbit".format(self.intf, self.rate)
         self.delcommand = "sudo tc qdisc del dev {0} root netem rate {1}Mbit".format(self.intf, self.rate)
 
-class limitTransferRateCommand(command):
+class delayCommand(command):
     def __init__(self, rate = None):
         super().__init__(rate = rate)
 
-        self.command = "sudo tc qdisc add dev {0} root netem delay {1}ms 50ms distribution normal".format(self.intf, self.rate)
-        self.delcommand = "sudo tc qdisc del dev {0} root netem delay {1}ms 50ms distribution normal".format(self.intf, self.rate)
+        self.command = "sudo tc qdisc add dev {0} root netem delay {1}ms".format(self.intf, self.rate)
+        self.delcommand = "sudo tc qdisc del dev {0} root netem delay {1}ms".format(self.intf, self.rate)
 
 
 
