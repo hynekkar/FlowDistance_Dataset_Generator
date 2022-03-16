@@ -1,6 +1,8 @@
 from commandsExecutor import *
+from tcpdumpHandler import *
 import urllib.request
-import csv
+import time
+import argparse
 
 corruptionValues = [0, 5, 10, 50, 80]
 duplicationValues = [0, 5, 10, 50, 80]
@@ -11,12 +13,15 @@ delayValues = [50, 200, 300, 500]
 
 def fetch(comm, url):
     comm.execute()
+    time.sleep(1);
     try:
         page = urllib.request.urlopen(url)
     except:
         comm.remove()
-        pass
+        time.sleep(1);
+        return
     comm.remove()
+    time.sleep(1);
 
 def generateCorruptionData(values, url):
     for value in values:
@@ -45,11 +50,28 @@ def generateDelayValues(values, url):
         fetch(comm, url);
 
 
-with open('input_url', newline='') as file:
+
+## MAIN
+
+parser = argparse.ArgumentParser(description='Generate dataset for flow distance research')
+parser.add_argument('-i', '--input', help='Path to file with input url', required=True)
+parser.add_argument('-o', '--output', help='Output directory for packet captures', required=True)
+
+args = parser.parse_args()
+
+with open(args.input, newline='') as file:
     for line in file:
         url = line.strip()
+        cap = tcpdump_handler( args.output + "/" + str(url).replace("https://","").replace("http://","") + ".pcap")
+        cap.start_capture()
+
+        generateCorruptionData(corruptionValues,url)
+        generateDuplicationValues(duplicationValues, url)
         generateDelayValues(delayValues,url)
-        sys.exit()
+        generateLossValues(lossValues,url)
+        generateTransferRateValues(transferRateValues,url)
+
+        cap.stop_capture()
 
 
 #dup = duplicationCommand(10);
