@@ -39,7 +39,7 @@ def fetch(comm, url, content_file_name):
         f.close();
     except:
         print("Could not write downloaded content.")
-        sys.exit(1)
+        #sys.exit(1)
     time.sleep(1);
 
 def generateCorruptionData(values, url, content_file_name):

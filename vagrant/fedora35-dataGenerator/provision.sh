@@ -27,4 +27,11 @@
   ethtool -K eth0 tx off sg off tso off
   ethtool --offload eth0 rx off tx off
   ethtool -K eth0 gro off
-
+  
+  cd /data/
+  git clone https://github.com/CESNET/ipfixprobe.git
+  cd  ipfixprobe
+  autoreconf -i
+  ./configure --with-pcap --with-nemea --with-quic
+  make -j2
+  make install
